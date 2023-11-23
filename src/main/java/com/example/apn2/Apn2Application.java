@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.PageRequest;
 
 import javax.naming.Name;
@@ -22,25 +23,22 @@ public class Apn2Application implements CommandLineRunner {
 		SpringApplication.run(Apn2Application.class, args);
 	}
 
+	//@Bean
+	CommandLineRunner commandLineRunner(PatientRepository patientRepository){
+		return args ->{
+			patientRepository.save(new Patient(null,"Hassan",new Date(),false,12));
+			patientRepository.save(new Patient(null,"Hassan",new Date(),false,12));
+
+			patientRepository.findAll().forEach(p->{
+					//System.out.println(p.getNom());
+		});
+
+		};
+	}
+
+
 	@Override
 	public void run(String... args) throws Exception {
-		for (int i = 0; i < 100 ; i++) {
-			patientRepository.save(new Patient(
-					(Long) null,"hassan",new Date(),Math.random()>0.5?true:false, (int) (Math.random() * 100
-			)));
-		}
-
-		List<Patient> patients = patientRepository.findByMaladeAndScoreLessThan(true, 2);
-		patients.forEach(p-> {
-					System.out.println("===================");
-					System.out.println(p.getId());
-					System.out.println(p.getNom());
-					System.out.println(p.getScore());
-					System.out.println(p.getDateNaissance());
-					System.out.println(p.isMalade());
-
-					System.out.println("*******************");
-				});
 
 	}
 }
